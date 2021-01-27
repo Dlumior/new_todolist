@@ -16,6 +16,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
     "target": "esnext"
   },
   "exclude": ["node_modules"],
