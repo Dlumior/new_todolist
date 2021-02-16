@@ -1,0 +1,15 @@
+.img1 {
+  position: fixed;
+  bottom: -7rem;
+  left: -4rem;
+  z-index: 1;
+  transform: rotate(-60deg);
+}
+
+.img2 {
+  position: fixed;
+  top: -7rem;
+  right: -5rem;
+  z-index: 1;
+  transform: rotate(-20deg);
+}
