@@ -26,23 +26,7 @@ export const MainLayout: FC<MainLayoutProps> = (props) => {
         {children}
       </Box>
       <Box h={"50px"} bgColor={"aqua"} display={"flex"} p={2} justifyContent={"center"}>
-        <Button
-          variant={"solid"}
-          size={"sm"}
-          onClick={() =>
-            handleAdd({
-              type: ActionKind.Add,
-              payload: {
-                id: 10,
-                done: false,
-                title: "Topic test",
-              },
-            })
-          }
-        >
-          Add
-        </Button>
-        <CustomModal />
+        <CustomModal handleAdd={handleAdd} />
       </Box>
     </>
   );

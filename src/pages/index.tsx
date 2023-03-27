@@ -7,8 +7,10 @@ import { Reducer, useReducer } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
+type UUID = string;
+
 type Topic = {
-  id: number;
+  id: UUID;
   title: string;
   done: boolean;
 };
@@ -27,19 +29,19 @@ export type ActionAdd = {
 
 export type ActionRemove = {
   type: ActionKind.Remove;
-  payload: number;
+  payload: UUID;
 };
 
-const initialTopics = [
-  { id: 1, title: "Example", done: false },
-  { id: 2, title: "Test", done: false },
+const initialTopics: State = [
+  { id: "123-123-123-123-123", title: "Example", done: false },
+  { id: "111-111-111-111-111", title: "Test", done: false },
 ];
 const topicReducer: Reducer<State, ActionAdd | ActionRemove> = (state, action) => {
   switch (action.type) {
     case ActionKind.Add:
       return [...state, action.payload];
     case ActionKind.Remove:
-      return state.filter((item) => item.id !== action.payload);
+      return state.filter((topic) => topic.id !== action.payload);
   }
 };
 
