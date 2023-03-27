@@ -19,7 +19,7 @@ import { ActionAdd, ActionKind, ActionRemove } from "@/pages";
 import * as crypto from "crypto";
 
 type CustomModelProps = {
-  handleAdd: Dispatch<ActionAdd | ActionRemove>;
+  handleAdd?: Dispatch<ActionAdd | ActionRemove>;
 };
 
 type FormData = {
@@ -37,16 +37,20 @@ export const CustomModal: FC<CustomModelProps> = (props) => {
   } = useForm<FormData>();
 
   const onSubmit = (values: FormData) => {
-    handleAdd({
-      type: ActionKind.Add,
-      payload: {
-        id: window.crypto.randomUUID(),
-        title: values.topicTitle,
-        done: false,
-      },
-    });
-    reset({ topicTitle: "" });
-    onClose();
+    if (handleAdd !== undefined) {
+      handleAdd({
+        type: ActionKind.Add,
+        payload: {
+          id: window.crypto.randomUUID(),
+          title: values.topicTitle,
+          done: false,
+        },
+      });
+      reset({ topicTitle: "" });
+      onClose();
+    } else {
+      throw new Error("There isn't a handle add action");
+    }
   };
   return (
     <>
@@ -57,16 +61,14 @@ export const CustomModal: FC<CustomModelProps> = (props) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Add new topic</ModalHeader>
           <ModalCloseButton />
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <ModalBody>
               <FormControl isInvalid={errors.topicTitle !== undefined}>
-                <FormLabel htmlFor="name">First name</FormLabel>
                 <Input
                   id="topicTitle"
-                  placeholder="topicTitle"
                   {...register("topicTitle", {
                     required: "This is required",
                     minLength: { value: 4, message: "Minimum length should be 4" },

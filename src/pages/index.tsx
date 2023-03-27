@@ -59,7 +59,12 @@ export default function Home() {
         <Grid templateColumns="repeat(2, 1fr)" gap={10} px={5}>
           {topics.map((topic) => (
             <GridItem key={topic.id} w="100%">
-              <Link href={"#"}>
+              <Link
+                href={{
+                  pathname: "/topic/[slug]",
+                  query: { slug: topic.id },
+                }}
+              >
                 <Card h={"8rem"} variant={"elevated"}>
                   <CardBody display={"flex"} justifyContent={"center"} alignItems={"center"}>
                     {topic.title}

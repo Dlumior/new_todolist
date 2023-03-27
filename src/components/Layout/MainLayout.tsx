@@ -5,7 +5,7 @@ import { CustomModal } from "@/components/Elements/CustomModal";
 
 type MainLayoutProps = {
   children: ReactNode;
-  handleAdd: Dispatch<ActionAdd | ActionRemove>;
+  handleAdd?: Dispatch<ActionAdd | ActionRemove>;
 };
 export const MainLayout: FC<MainLayoutProps> = (props) => {
   const { children, handleAdd } = props;
