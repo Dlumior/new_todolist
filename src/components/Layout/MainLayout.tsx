@@ -17,6 +17,7 @@ export const MainLayout: FC<MainLayoutProps> = (props) => {
       <Box
         sx={{
           height: "calc(100vh - 50px - 50px)",
+          minHeight: "-webkit-fill-available",
         }}
         py={"5"}
         px={"2"}
