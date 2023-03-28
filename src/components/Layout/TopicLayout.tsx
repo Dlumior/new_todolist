@@ -26,7 +26,7 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
       <Box position={"sticky"} h={"50px"} bgColor={"moccasin"} display={"flex"} alignItems={"center"} p={2}>
         <Text>SKYA - TODO LIST</Text>
       </Box>
-      <Box position={"sticky"} h={"100px"} display={"flex"} p={2} justifyContent={"center"}>
+      <Box position={"sticky"} h={"55px"} display={"flex"} px={5} justifyContent={"center"}>
         <Box
           as={"form"}
           w={"100%"}
@@ -48,17 +48,17 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
             />
           </FormControl>
           <Button size={"sm"} colorScheme="teal" isLoading={isSubmitting} type="submit">
-            Submit
+            Add
           </Button>
         </Box>
       </Box>
       <Box
         sx={{
-          height: "calc(100vh - 100px - 50px)",
+          height: "calc(100vh - 55px - 50px)",
           minHeight: "-webkit-fill-available",
         }}
         py={"5"}
-        px={"2"}
+        px={"5"}
         overflowY={"scroll"}
         bgColor={"red"}
       >

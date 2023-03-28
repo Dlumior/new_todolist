@@ -4,49 +4,12 @@ import { Card, CardBody, Grid, GridItem } from "@chakra-ui/react";
 import { MainLayout } from "@/components/Layout/MainLayout";
 import Link from "next/link";
 import { Reducer, useReducer } from "react";
+import { useTopic } from "@/hooks/useTopic";
 
 const inter = Inter({ subsets: ["latin"] });
 
-type UUID = string;
-
-type Topic = {
-  id: UUID;
-  title: string;
-  done: boolean;
-};
-
-type State = Topic[];
-
-export enum ActionKind {
-  Add = "ADD",
-  Remove = "REMOVE",
-}
-
-export type ActionAdd = {
-  type: ActionKind.Add;
-  payload: Topic;
-};
-
-export type ActionRemove = {
-  type: ActionKind.Remove;
-  payload: UUID;
-};
-
-const initialTopics: State = [
-  { id: "123-123-123-123-123", title: "Example", done: false },
-  { id: "111-111-111-111-111", title: "Test", done: false },
-];
-const topicReducer: Reducer<State, ActionAdd | ActionRemove> = (state, action) => {
-  switch (action.type) {
-    case ActionKind.Add:
-      return [...state, action.payload];
-    case ActionKind.Remove:
-      return state.filter((topic) => topic.id !== action.payload);
-  }
-};
-
 export default function Home() {
-  const [topics, dispatch] = useReducer(topicReducer, initialTopics);
+  const { topics, addTopic } = useTopic();
   return (
     <>
       <Head>
@@ -55,7 +18,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <MainLayout handleAdd={dispatch}>
+      <MainLayout
+        handleAdd={(title: string) => addTopic({ id: window.crypto.randomUUID(), title: title, done: false })}
+      >
         <Grid templateColumns="repeat(2, 1fr)" gap={10} px={5}>
           {topics.map((topic) => (
             <GridItem key={topic.id} w="100%">

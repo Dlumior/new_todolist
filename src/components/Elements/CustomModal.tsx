@@ -2,7 +2,6 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
-  FormLabel,
   Input,
   Modal,
   ModalBody,
@@ -14,12 +13,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { Dispatch, FC } from "react";
-import { ActionAdd, ActionKind, ActionRemove } from "@/pages";
-import * as crypto from "crypto";
+import { FC } from "react";
 
 type CustomModelProps = {
-  handleAdd?: Dispatch<ActionAdd | ActionRemove>;
+  handleAdd?: (title: string) => void;
 };
 
 type FormData = {
@@ -38,14 +35,7 @@ export const CustomModal: FC<CustomModelProps> = (props) => {
 
   const onSubmit = (values: FormData) => {
     if (handleAdd !== undefined) {
-      handleAdd({
-        type: ActionKind.Add,
-        payload: {
-          id: window.crypto.randomUUID(),
-          title: values.topicTitle,
-          done: false,
-        },
-      });
+      handleAdd(values.topicTitle);
       reset({ topicTitle: "" });
       onClose();
     } else {
