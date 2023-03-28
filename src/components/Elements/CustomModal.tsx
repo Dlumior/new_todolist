@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 type CustomModelProps = {
   handleAdd?: (title: string) => void;
@@ -29,19 +29,23 @@ export const CustomModal: FC<CustomModelProps> = (props) => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
     reset,
   } = useForm<FormData>();
 
   const onSubmit = (values: FormData) => {
     if (handleAdd !== undefined) {
       handleAdd(values.topicTitle);
-      reset({ topicTitle: "" });
-      onClose();
     } else {
       throw new Error("There isn't a handle add action");
     }
   };
+
+  useEffect(() => {
+    reset({ topicTitle: "" });
+    onClose();
+  }, [isSubmitSuccessful, reset, onClose]);
+
   return (
     <>
       <Button variant={"solid"} size={"sm"} onClick={onOpen}>
@@ -59,6 +63,7 @@ export const CustomModal: FC<CustomModelProps> = (props) => {
               <FormControl isInvalid={errors.topicTitle !== undefined}>
                 <Input
                   id="topicTitle"
+                  autoComplete="off"
                   {...register("topicTitle", {
                     required: "This is required",
                     minLength: { value: 4, message: "Minimum length should be 4" },

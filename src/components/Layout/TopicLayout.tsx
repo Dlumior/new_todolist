@@ -1,6 +1,7 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Text } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { useTask } from "@/hooks/useTask";
 
 type TopicLayoutProps = {
   children: ReactNode;
@@ -11,16 +12,27 @@ type FormData = {
 };
 export const TopicLayout: FC<TopicLayoutProps> = (props) => {
   const { children } = props;
+  const { addTask } = useTask();
 
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+    reset,
   } = useForm<FormData>();
 
   function onSubmit(values: FormData) {
-    console.log(values);
+    addTask({
+      id: window.crypto.randomUUID(),
+      done: false,
+      content: values.task,
+    });
   }
+
+  useEffect(() => {
+    reset({ task: "" });
+  }, [isSubmitSuccessful, reset]);
+
   return (
     <>
       <Box position={"sticky"} h={"50px"} bgColor={"moccasin"} display={"flex"} alignItems={"center"} p={2}>
@@ -41,6 +53,7 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
               size={"sm"}
               id="task"
               placeholder="Add new task"
+              autoComplete="off"
               {...register("task", {
                 required: "This is required",
                 minLength: { value: 4, message: "Minimum length should be 4" },
