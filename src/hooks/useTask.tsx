@@ -49,8 +49,8 @@ const taskReducer: Reducer<State, Actions> = (state, action) => {
   switch (type) {
     case actionsTask.ADD_TASK:
       state.find((item) => item.topicId === payload.topicId)?.tasks.push(payload.task);
-      console.log(state);
-      return [...state];
+
+      return state;
     case actionsTask.REMOVE_TASK:
       const taskFiltered = state.find((item) => item.topicId === payload.topicId);
       const newTasks = taskFiltered?.tasks.filter((task) => task.id !== payload.taskId);

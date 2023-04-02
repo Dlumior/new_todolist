@@ -1,6 +1,3 @@
-import { MainLayout } from "@/components/Layout/MainLayout";
-import { Box, Button, Checkbox, Heading, ListItem, Stack, Text, UnorderedList } from "@chakra-ui/react";
-import { FC } from "react";
 import { useRouter } from "next/router";
 import { TopicLayout } from "@/components/Layout/TopicLayout";
 import { useTopic, UUID } from "@/hooks/useTopic";
@@ -20,24 +17,13 @@ export default function TopicTodoList() {
   };
   return (
     <TopicLayout handleAdd={handleAdd}>
-      <Heading as={"h2"} size={"md"} mb={4}>
-        {topic.title}
-      </Heading>
+      <p className={"text-base"}>{topic.title}</p>
 
-      <Stack spacing={5} direction="column">
+      <div>
         {topicTasks.tasks.map((task) => (
-          <Checkbox
-            key={task.id}
-            checked={task.done}
-            onClick={(e) => {
-              e.preventDefault();
-              completeTask(topicId, task.id);
-            }}
-          >
-            {task.content}
-          </Checkbox>
+          <div key={task.id}>{task.content}</div>
         ))}
-      </Stack>
+      </div>
     </TopicLayout>
   );
 }

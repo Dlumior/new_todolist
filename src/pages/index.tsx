@@ -1,9 +1,7 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
-import { Card, CardBody, Grid, GridItem } from "@chakra-ui/react";
 import { MainLayout } from "@/components/Layout/MainLayout";
 import Link from "next/link";
-import { Reducer, useReducer } from "react";
 import { useTopic } from "@/hooks/useTopic";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,24 +19,25 @@ export default function Home() {
       <MainLayout
         handleAdd={(title: string) => addTopic({ id: window.crypto.randomUUID(), title: title, done: false })}
       >
-        <Grid templateColumns="repeat(2, 1fr)" gap={10} px={5}>
+        <div className={"grid w-full grid-cols-2 gap-4"}>
           {topics.map((topic) => (
-            <GridItem key={topic.id} w="100%">
+            <div
+              key={topic.id}
+              className={"flex h-24 w-full items-center justify-center rounded-sm bg-primary-200 text-black-950"}
+            >
               <Link
                 href={{
                   pathname: "/topic/[slug]",
                   query: { slug: topic.id },
                 }}
               >
-                <Card h={"8rem"} variant={"elevated"}>
-                  <CardBody display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                    {topic.title}
-                  </CardBody>
-                </Card>
+                <div>
+                  <div>{topic.title}</div>
+                </div>
               </Link>
-            </GridItem>
+            </div>
           ))}
-        </Grid>
+        </div>
       </MainLayout>
     </>
   );
