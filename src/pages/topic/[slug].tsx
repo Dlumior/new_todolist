@@ -10,17 +10,30 @@ export default function TopicTodoList() {
   const router = useRouter();
   const { slug } = router.query;
   const { findTopic } = useTopic();
-  const { tasks } = useTask();
-  const topic = findTopic(slug as UUID);
+  const { findTopicTasks, completeTask, addTask } = useTask();
+  const topicId = slug as UUID;
+  const topic = findTopic(topicId);
+  const topicTasks = findTopicTasks(topicId);
+
+  const handleAdd = (task: string) => {
+    addTask(topicId, { id: window.crypto.randomUUID(), done: false, content: task });
+  };
   return (
-    <TopicLayout>
+    <TopicLayout handleAdd={handleAdd}>
       <Heading as={"h2"} size={"md"} mb={4}>
         {topic.title}
       </Heading>
 
       <Stack spacing={5} direction="column">
-        {tasks.map((task) => (
-          <Checkbox key={task.id} checked={task.done}>
+        {topicTasks.tasks.map((task) => (
+          <Checkbox
+            key={task.id}
+            checked={task.done}
+            onClick={(e) => {
+              e.preventDefault();
+              completeTask(topicId, task.id);
+            }}
+          >
             {task.content}
           </Checkbox>
         ))}

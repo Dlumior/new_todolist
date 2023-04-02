@@ -7,32 +7,39 @@ type Task = {
   done: boolean;
 };
 
+type TopicTasks = {
+  topicId: UUID;
+  tasks: Task[];
+};
+
+type TopicsTasks = TopicTasks[];
+
 export const actionsTask = {
   ADD_TASK: "ADD_TASK" as const,
   REMOVE_TASK: "REMOVE_TASK" as const,
   COMPLETE_TASK: "COMPLETE_TASK" as const,
 };
 
-type State = Task[];
+type State = TopicsTasks;
 
 const initialTasks: State = [
-  { id: "123-123-123-123-123", content: "Example", done: false },
-  { id: "111-111-111-111-111", content: "Test", done: false },
+  { topicId: "123-123-123-123-123", tasks: [{ id: "12-12-12-12-12", content: "Some things to do", done: false }] },
+  { topicId: "111-111-111-111-111", tasks: [{ id: "11-11-11-11-11", content: "Hmmm", done: false }] },
 ];
 
 export type ActionRemove = {
   type: "REMOVE_TASK";
-  payload: UUID;
+  payload: { topicId: UUID; taskId: UUID };
 };
 
 export type ActionAdd = {
   type: "ADD_TASK";
-  payload: Task;
+  payload: { topicId: UUID; task: Task };
 };
 
 export type ActionComplete = {
   type: "COMPLETE_TASK";
-  payload: UUID;
+  payload: { topicId: UUID; taskId: UUID };
 };
 
 export type Actions = ActionAdd | ActionRemove | ActionComplete;
@@ -41,66 +48,73 @@ const taskReducer: Reducer<State, Actions> = (state, action) => {
   const { type, payload } = action;
   switch (type) {
     case actionsTask.ADD_TASK:
-      return [...state, payload];
+      state.find((item) => item.topicId === payload.topicId)?.tasks.push(payload.task);
+      console.log(state);
+      return [...state];
     case actionsTask.REMOVE_TASK:
-      return state.filter((item) => item.id !== payload);
+      const taskFiltered = state.find((item) => item.topicId === payload.topicId);
+      const newTasks = taskFiltered?.tasks.filter((task) => task.id !== payload.taskId);
+
+      if (taskFiltered && newTasks) taskFiltered.tasks = newTasks;
+      return [...state];
     case actionsTask.COMPLETE_TASK:
-      const task = state.find((item) => item.id === payload);
-      if (task) {
-        task.done = true;
+      const topicTasks = state.find((item) => item.topicId === payload.topicId);
+      if (topicTasks) {
+        const auxTask = topicTasks.tasks.find((item) => item.id === payload.taskId);
+        if (auxTask) auxTask.done = true;
       }
-      return state;
+      return [...state];
     default:
       throw new Error(`No case for the type ${type} found in the reducer`);
   }
 };
 
 const TaskContext = createContext({
-  tasks: initialTasks,
-  addTask: (task: Task) => {},
-  removeTask: (id: UUID) => {},
-  findTask: (id: UUID): Task => {
-    return { id: "0", done: false, content: "Empty" };
+  topicsTasks: initialTasks,
+  addTask: (topicId: UUID, task: Task) => {},
+  removeTask: (topicId: UUID, taskId: UUID) => {},
+  findTopicTasks: (topicId: UUID): TopicTasks => {
+    return { topicId: "0", tasks: [] };
   },
-  completeTask: (id: UUID) => {},
+  completeTask: (topicId: UUID, taskId: UUID) => {},
 });
 
 export const TaskProvider: FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
-  const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
+  const [topicsTasks, dispatch] = useReducer(taskReducer, initialTasks);
 
-  const addTask = (task: Task) => {
+  const addTask = (topicId: UUID, task: Task) => {
     dispatch({
       type: actionsTask.ADD_TASK,
-      payload: task,
+      payload: { topicId, task },
     });
   };
 
-  const removeTask = (id: UUID) => {
+  const removeTask = (topicId: UUID, taskId: UUID) => {
     dispatch({
       type: actionsTask.REMOVE_TASK,
-      payload: id,
+      payload: { topicId, taskId },
     });
   };
 
-  const findTask = (id: UUID): Task => {
-    const task = tasks.find((item) => item.id === id);
+  const findTopicTasks = (topicId: UUID): TopicTasks => {
+    const task = topicsTasks.find((item) => item.topicId === topicId);
     if (task) return task;
-    return { id: "0", done: false, content: "Empty" };
+    return { topicId: "0", tasks: [] };
   };
 
-  const completeTask = (id: UUID) => {
+  const completeTask = (topicId: UUID, taskId: UUID) => {
     dispatch({
       type: actionsTask.COMPLETE_TASK,
-      payload: id,
+      payload: { topicId, taskId },
     });
   };
 
   const value = {
-    tasks,
+    topicsTasks,
     addTask,
     removeTask,
-    findTask,
+    findTopicTasks,
     completeTask,
   };
 

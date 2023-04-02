@@ -5,13 +5,14 @@ import { useTask } from "@/hooks/useTask";
 
 type TopicLayoutProps = {
   children: ReactNode;
+  handleAdd: (task: string) => void;
 };
 
 type FormData = {
   task: string;
 };
 export const TopicLayout: FC<TopicLayoutProps> = (props) => {
-  const { children } = props;
+  const { children, handleAdd } = props;
   const { addTask } = useTask();
 
   const {
@@ -22,11 +23,7 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
   } = useForm<FormData>();
 
   function onSubmit(values: FormData) {
-    addTask({
-      id: window.crypto.randomUUID(),
-      done: false,
-      content: values.task,
-    });
+    handleAdd(values.task);
   }
 
   useEffect(() => {
