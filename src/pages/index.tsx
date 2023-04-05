@@ -21,21 +21,19 @@ export default function Home() {
       >
         <div className={"grid w-full grid-cols-2 gap-4"}>
           {topics.map((topic) => (
-            <div
+            <Link
               key={topic.id}
-              className={"flex h-24 w-full items-center justify-center rounded-sm bg-primary-200 text-black-950"}
+              href={{
+                pathname: "/topic/[slug]",
+                query: { slug: topic.id },
+              }}
             >
-              <Link
-                href={{
-                  pathname: "/topic/[slug]",
-                  query: { slug: topic.id },
-                }}
-              >
+              <div className={"flex h-24 w-full items-center justify-center rounded-sm bg-primary-200 text-black-950"}>
                 <div>
                   <div>{topic.title}</div>
                 </div>
-              </Link>
-            </div>
+              </div>
+            </Link>
           ))}
         </div>
       </MainLayout>
