@@ -7,7 +7,7 @@ export default function TopicTodoList() {
   const router = useRouter();
   const { slug } = router.query;
   const { findTopic } = useTopic();
-  const { findTopicTasks, completeTask, addTask } = useTask();
+  const { findTopicTasks, addTask } = useTask();
   const topicId = slug as UUID;
   const topic = findTopic(topicId);
   const topicTasks = findTopicTasks(topicId);
@@ -17,10 +17,10 @@ export default function TopicTodoList() {
   };
   return (
     <TopicLayout handleAdd={handleAdd}>
-      <p className={"text-base"}>{topic.title}</p>
+      <p className={"text-base"}>{topic?.title}</p>
 
       <div>
-        {topicTasks.tasks.map((task) => (
+        {topicTasks?.tasks?.map((task) => (
           <div key={task.id}>{task.content}</div>
         ))}
       </div>

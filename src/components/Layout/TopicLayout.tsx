@@ -33,29 +33,32 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
 
   return (
     <>
-      <div className={"sticky top-0 flex h-[50px] items-center bg-blue-700 p-2"}>
+      <div
+        className={"sticky top-0 flex h-[50px] items-center bg-primary-200 px-5 py-2 shadow-2xl shadow-primary-200/30"}
+      >
         <p className={"text-base"}>SKYA - TODO LIST</p>
       </div>
-      <div>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className={"flex h-[50px] w-full w-full max-w-sm items-center space-x-2 px-5"}
-        >
-          <Input
-            id="task"
-            placeholder="Add new task"
-            autoComplete="off"
-            {...register("task", {
-              required: "This is required",
-              minLength: { value: 4, message: "Minimum length should be 4" },
-            })}
-          />
-          <Button variant={"destructive"} size={"sm"}>
-            Add
-          </Button>
-        </form>
-      </div>
-      <div className={"border-y-green-700"}>{children}</div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={
+          "sticky top-[50px] flex w-full items-center justify-center space-x-2 bg-black-700 px-5 py-5" + " text-white"
+        }
+      >
+        <Input
+          id="task"
+          placeholder="Add new task"
+          disabled={isSubmitting}
+          autoComplete="off"
+          {...register("task", {
+            required: "This is required",
+            minLength: { value: 4, message: "Minimum length should be 4" },
+          })}
+        />
+        <Button variant={"destructive"} size={"sm"} disabled={isSubmitting}>
+          Add
+        </Button>
+      </form>
+      <div className={"h-screen bg-black-700 px-5 pt-5 text-white"}>{children}</div>
     </>
   );
 };

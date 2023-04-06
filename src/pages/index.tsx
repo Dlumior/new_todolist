@@ -20,21 +20,20 @@ export default function Home() {
         handleAdd={(title: string) => addTopic({ id: window.crypto.randomUUID(), title: title, done: false })}
       >
         <div className={"grid w-full grid-cols-2 gap-4"}>
-          {topics.map((topic) => (
-            <Link
-              key={topic.id}
-              href={{
-                pathname: "/topic/[slug]",
-                query: { slug: topic.id },
-              }}
-            >
-              <div className={"flex h-24 w-full items-center justify-center rounded-sm bg-primary-200 text-black-950"}>
-                <div>
-                  <div>{topic.title}</div>
-                </div>
-              </div>
-            </Link>
-          ))}
+          {topics
+            ? topics.map((topic) => (
+                <Link
+                  key={topic.id}
+                  className={"flex h-24 w-full items-center justify-center rounded-sm bg-primary-200 text-black-950"}
+                  href={{
+                    pathname: "/topic/[slug]",
+                    query: { slug: topic.id },
+                  }}
+                >
+                  <span>{topic.title}</span>
+                </Link>
+              ))
+            : null}
         </div>
       </MainLayout>
     </>
