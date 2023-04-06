@@ -24,7 +24,7 @@ export default function Home() {
             ? topics.map((topic) => (
                 <Link
                   key={topic.id}
-                  className={"flex h-24 w-full items-center justify-center rounded-sm bg-primary-200 text-black-950"}
+                  className={"flex h-24 w-full items-center justify-center rounded-2xl bg-primary-200 text-black-950"}
                   href={{
                     pathname: "/topic/[slug]",
                     query: { slug: topic.id },

@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import { Input } from "@/components/Elements/ui/Input";
 import { Button } from "@/components/Elements/ui/Button";
 import { useForm } from "react-hook-form";
@@ -13,13 +13,22 @@ type FormData = {
 };
 export const MainLayout: FC<MainLayoutProps> = (props) => {
   const { children, handleAdd } = props;
-  const { register, handleSubmit } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitSuccessful, isSubmitting },
+  } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
     if (handleAdd) {
       handleAdd(data.text);
     }
   };
+
+  useEffect(() => {
+    reset({ text: "" });
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <>
@@ -31,10 +40,17 @@ export const MainLayout: FC<MainLayoutProps> = (props) => {
         }
       >
         <div>
-          <p className={"text-base"}>SKYA - TODO LIST</p>
+          <p className={"font-bold text-black-950"}>SKYA</p>
         </div>
         <div>
-          <Button size={"sm"} variant={"secondary"} onClick={() => localStorage.clear()} type={"button"}>
+          <Button
+            size={"sm"}
+            round={"full"}
+            variant={"dark"}
+            onClick={() => localStorage.clear()}
+            type={"button"}
+            disabled={isSubmitting}
+          >
             Clear
           </Button>
         </div>
@@ -45,8 +61,8 @@ export const MainLayout: FC<MainLayoutProps> = (props) => {
           "sticky top-[50px] flex w-full items-center justify-center space-x-2 bg-black-700 px-5 py-5" + " text-white"
         }
       >
-        <Input autoComplete={"off"} placeholder="Add new topic" {...register("text")} />
-        <Button type={"submit"} variant={"outline"}>
+        <Input disabled={isSubmitting} autoComplete={"off"} placeholder="Add new topic" {...register("text")} />
+        <Button type={"submit"} variant={"outline"} size={"default"} disabled={isSubmitting}>
           Add
         </Button>
       </form>

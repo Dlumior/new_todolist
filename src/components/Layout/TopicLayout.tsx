@@ -36,7 +36,7 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
       <div
         className={"sticky top-0 flex h-[50px] items-center bg-primary-200 px-5 py-2 shadow-2xl shadow-primary-200/30"}
       >
-        <p className={"text-base"}>SKYA - TODO LIST</p>
+        <p className={"font-bold text-black-950"}>SKYA</p>
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -54,11 +54,11 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
             minLength: { value: 4, message: "Minimum length should be 4" },
           })}
         />
-        <Button variant={"destructive"} size={"sm"} disabled={isSubmitting}>
+        <Button type={"submit"} variant={"outline"} size={"default"} disabled={isSubmitting}>
           Add
         </Button>
       </form>
-      <div className={"h-screen bg-black-700 px-5 pt-5 text-white"}>{children}</div>
+      <div className={"h-screen bg-black-700 pt-5 text-white"}>{children}</div>
     </>
   );
 };
