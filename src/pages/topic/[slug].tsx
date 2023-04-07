@@ -3,11 +3,13 @@ import { TopicLayout } from "@/components/Layout/TopicLayout";
 import { useTopic, UUID } from "@/hooks/useTopic";
 import { useTask } from "@/hooks/useTask";
 import { Trash } from "lucide-react";
+import { Checkbox } from "@/components/Elements/ui/Checkbox";
+import { Label } from "@/components/Elements/ui/Label";
 
 export default function TopicTodoList() {
   const router = useRouter();
   const { slug } = router.query;
-  const { findTopic } = useTopic();
+  const { findTopic, removeTopic } = useTopic();
   const { findTopicTasks, addTask } = useTask();
   const topicId = slug as UUID;
   const topic = findTopic(topicId);
@@ -28,16 +30,28 @@ export default function TopicTodoList() {
           </div>
         </div>
         <div>
-          <button className={"rounded-full bg-white p-3"}>
+          <button className={"rounded-full bg-white p-3"} onClick={() => removeTopic(topicId)}>
             <Trash className={"text-black-950"} size={16} />
           </button>
         </div>
       </div>
 
       <div className={"h-full rounded-t-3xl bg-primary-200 px-5 pt-10 text-black-950"}>
-        {topicTasks?.tasks?.map((task) => (
-          <div key={task.id}>{task.content}</div>
-        ))}
+        <ul>
+          {topicTasks?.tasks?.map((task) => (
+            <li key={task.id} className={"flex items-center py-2"}>
+              <div className={"flex items-center gap-3"}>
+                <Checkbox id={task.id} />
+                <label
+                  htmlFor={task.id}
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {task.content}
+                </label>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </TopicLayout>
   );

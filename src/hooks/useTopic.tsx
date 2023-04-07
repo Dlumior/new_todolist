@@ -1,6 +1,7 @@
 import { createContext, FC, ReactNode, Reducer, useContext, useReducer } from "react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useTask } from "@/hooks/useTask";
+import { useRouter } from "next/router";
 
 export type UUID = string;
 
@@ -16,6 +17,7 @@ const initialTopics: Topic[] = [
 ];
 
 export const useTopic = () => {
+  const router = useRouter();
   const { data: topics, setValue: setTopics } = useLocalStorage<Topic[]>("topics", initialTopics);
   const { addTopicWithEmptyTasks } = useTask();
 
@@ -27,6 +29,7 @@ export const useTopic = () => {
   const removeTopic = (id: UUID) => {
     const newTopics = topics ? topics.filter((topic) => topic.id !== id) : topics;
     setTopics(newTopics);
+    router.push("/");
   };
 
   const findTopic = (id: UUID) => {
