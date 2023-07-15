@@ -10,7 +10,7 @@ export default function TopicTodoList() {
   const router = useRouter();
   const { slug } = router.query;
   const { findTopic, removeTopic } = useTopic();
-  const { findTopicTasks, addTask } = useTask();
+  const { findTopicTasks, addTask, completeTask } = useTask();
   const topicId = slug as UUID;
   const topic = findTopic(topicId);
   const topicTasks = findTopicTasks(topicId);
@@ -41,7 +41,7 @@ export default function TopicTodoList() {
           {topicTasks?.tasks?.map((task) => (
             <li key={task.id} className={"flex items-center py-2"}>
               <div className={"flex items-center gap-3"}>
-                <Checkbox id={task.id} />
+                <Checkbox id={task.id} checked={task.done} onCheckedChange={() => completeTask(topicId, task.id)} />
                 <label
                   htmlFor={task.id}
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"

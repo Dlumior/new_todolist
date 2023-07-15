@@ -56,11 +56,22 @@ export const useTask = () => {
     return topicsTasks?.find((item) => item.topicId === topicId);
   };
 
+  const completeTask = (topicId: UUID, taskId: UUID) => {
+    const topicTasks = topicsTasks?.find((item) => item.topicId === topicId);
+    const task = topicTasks?.tasks.find((item) => item.id === taskId);
+
+    if (topicTasks && task) {
+      task.done = !task.done;
+      setTopicsTasks(topicsTasks);
+    }
+  };
+
   return {
     topicsTasks,
     addTask,
     addTopicWithEmptyTasks,
     removeTask,
     findTopicTasks,
+    completeTask,
   };
 };
