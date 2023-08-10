@@ -36,7 +36,7 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
       <div
         className={"sticky top-0 flex h-[50px] items-center bg-primary-200 px-5 py-2 shadow-2xl shadow-primary-200/30"}
       >
-        <p className={"font-bold text-black-950"}>Bezzy</p>
+        <p className={"font-bold text-slate-950"}>Bezzy</p>
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
