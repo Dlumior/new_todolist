@@ -2,6 +2,7 @@ import { FC, ReactNode, useEffect } from "react";
 import { Input } from "@/components/Elements/ui/Input";
 import { Button } from "@/components/Elements/ui/Button";
 import { useForm } from "react-hook-form";
+import { signOut } from "next-auth/react";
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -40,25 +41,18 @@ export const MainLayout: FC<MainLayoutProps> = (props) => {
         }
       >
         <div>
-          <p className={"font-bold text-black-950"}>SKYA</p>
+          <p className={"font-bold text-black-950"}>Bezzy</p>
         </div>
         <div>
-          <Button
-            size={"sm"}
-            round={"full"}
-            variant={"dark"}
-            onClick={() => localStorage.clear()}
-            type={"button"}
-            disabled={isSubmitting}
-          >
-            Clear
+          <Button size={"sm"} round={"full"} variant={"dark"} type="button" onClick={() => signOut()}>
+            Sign out
           </Button>
         </div>
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={
-          "sticky top-[50px] flex w-full items-center justify-center space-x-2 bg-black-700 px-5 py-5" + " text-white"
+          "sticky top-[50px] flex w-full items-center justify-center space-x-2 bg-slate-800 px-5 py-5" + " text-white"
         }
       >
         <Input disabled={isSubmitting} autoComplete={"off"} placeholder="Add new topic" {...register("text")} />
@@ -66,7 +60,7 @@ export const MainLayout: FC<MainLayoutProps> = (props) => {
           Add
         </Button>
       </form>
-      <div className={"h-screen bg-black-700 px-5 pt-5 text-white"}>{children}</div>
+      <div className={"h-screen bg-slate-800 px-5 pt-5 text-white"}>{children}</div>
     </>
   );
 };

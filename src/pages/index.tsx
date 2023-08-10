@@ -1,41 +1,28 @@
-import Head from "next/head";
-import { Inter } from "next/font/google";
-import { MainLayout } from "@/components/Layout/MainLayout";
-import Link from "next/link";
-import { useTopic } from "@/hooks/useTopic";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Button } from "@/components/Elements/ui/Button";
+import { Spinner } from "@/components/Elements/ui/Spinner";
+import { signIn, signOut, useSession } from "next-auth/react";
+import React from "react";
 
 export default function Home() {
-  const { topics, addTopic } = useTopic();
+  const { data, status } = useSession();
+
+  if (status === "loading") {
+    return <Spinner />;
+  }
+
+  if (status === "authenticated") {
+    return (
+      <div className="flex h-screen flex-col items-center justify-center bg-slate-800">
+        <p>Signed in as {data?.user?.email}</p>
+        <button onClick={() => signOut()}>Sign out</button>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <Head>
-        <title>SKYA</title>
-        <meta name="description" content="Todo list app" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <MainLayout
-        handleAdd={(title: string) => addTopic({ id: window.crypto.randomUUID(), title: title, done: false })}
-      >
-        <div className={"grid w-full grid-cols-2 gap-4"}>
-          {topics
-            ? topics.map((topic) => (
-                <Link
-                  key={topic.id}
-                  className={"flex h-24 w-full items-center justify-center rounded-2xl bg-primary-200 text-black-950"}
-                  href={{
-                    pathname: "/topic/[slug]",
-                    query: { slug: topic.id },
-                  }}
-                >
-                  <span>{topic.title}</span>
-                </Link>
-              ))
-            : null}
-        </div>
-      </MainLayout>
-    </>
+    <div className="flex h-screen flex-col items-center justify-center bg-slate-800">
+      <h2 className="mb-10 text-2xl font-bold text-white">Bezzy</h2>
+      <Button onClick={() => signIn()}>Sign in</Button>
+    </div>
   );
 }

@@ -26,7 +26,7 @@ export default function TopicTodoList() {
             <span className={"rounded-lg bg-white px-3 py-2 text-sm text-black-950"}>{topicTasks?.tasks.length}</span>
           </div>
           <div>
-            <span className={"text-2xl text-base font-medium text-white"}>{topic?.title}</span>
+            <span className={"text-2xl font-medium text-white"}>{topic?.title}</span>
           </div>
         </div>
         <div>

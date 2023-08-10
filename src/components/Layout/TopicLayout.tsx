@@ -36,12 +36,12 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
       <div
         className={"sticky top-0 flex h-[50px] items-center bg-primary-200 px-5 py-2 shadow-2xl shadow-primary-200/30"}
       >
-        <p className={"font-bold text-black-950"}>SKYA</p>
+        <p className={"font-bold text-black-950"}>Bezzy</p>
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={
-          "sticky top-[50px] flex w-full items-center justify-center space-x-2 bg-black-700 px-5 py-5" + " text-white"
+          "sticky top-[50px] flex w-full items-center justify-center space-x-2 bg-slate-800 px-5 py-5" + " text-white"
         }
       >
         <Input
@@ -58,7 +58,7 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
           Add
         </Button>
       </form>
-      <div className={"h-screen bg-black-700 pt-5 text-white"}>{children}</div>
+      <div className={"h-screen bg-slate-800 pt-5 text-white"}>{children}</div>
     </>
   );
 };
