@@ -41,7 +41,7 @@ export const MainLayout: FC<MainLayoutProps> = (props) => {
         }
       >
         <div>
-          <p className={"font-bold text-black-950"}>Bezzy</p>
+          <p className={"font-bold text-slate-950"}>Bezzy</p>
         </div>
         <div>
           <Button size={"sm"} round={"full"} variant={"dark"} type="button" onClick={() => signOut()}>
