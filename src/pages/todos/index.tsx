@@ -3,11 +3,13 @@ import { Inter } from "next/font/google";
 import { MainLayout } from "@/components/Layout/MainLayout";
 import Link from "next/link";
 import { useTopic } from "@/hooks/useTopic";
+import Toaster from "@/components/Elements/ui/Toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
 function Todos() {
   const { topics, addTopic } = useTopic();
+
   return (
     <>
       <Head>
