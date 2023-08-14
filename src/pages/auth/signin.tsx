@@ -16,7 +16,7 @@ const Signin = ({ providers }: { providers: InferGetServerSidePropsType<typeof g
   }
 
   if (status === "authenticated") {
-    router.push("/todos");
+    router.push("/topic");
   }
 
   const providersList = (Object.values(providers) as unknown as ClientSafeProvider[]) ?? [];

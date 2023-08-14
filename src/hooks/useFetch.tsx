@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import fetchData, { FetchOptions } from "@/utils/fetchData";
+import { FetchOptions, createFetcher } from "@/utils/fetchData";
 
 type FetchData<T> = {
   data: T | null;
   isLoading: boolean;
   error: Error | null;
 };
+
+const fetcher = createFetcher("localhost:3000");
 
 function useFetch<T>(url: string, options?: FetchOptions): FetchData<T> {
   const [data, setData] = useState<T | null>(null);
@@ -16,7 +18,7 @@ function useFetch<T>(url: string, options?: FetchOptions): FetchData<T> {
     const fetchDataFn = async () => {
       setIsLoading(true);
       try {
-        const result = await fetchData<T>(url, options);
+        const result = await fetcher<T>(url, options);
         setData(result);
       } catch (error: any) {
         setError(error);
