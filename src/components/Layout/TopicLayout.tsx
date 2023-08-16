@@ -38,7 +38,7 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
       >
         <p className={"font-bold text-slate-950"}>Bezzy</p>
       </div>
-      <form
+      {/* <form
         onSubmit={handleSubmit(onSubmit)}
         className={
           "sticky top-[50px] flex w-full items-center justify-center space-x-2 bg-slate-800 px-5 py-5" + " text-white"
@@ -57,7 +57,7 @@ export const TopicLayout: FC<TopicLayoutProps> = (props) => {
         <Button type={"submit"} variant={"outline"} size={"default"} disabled={isSubmitting}>
           Add
         </Button>
-      </form>
+      </form> */}
       <div className={"h-screen bg-slate-800 pt-5 text-white"}>{children}</div>
     </>
   );

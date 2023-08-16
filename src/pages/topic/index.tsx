@@ -4,16 +4,19 @@ import useSWR from "swr";
 import Link from "next/link";
 import { MainLayout } from "@/components/Layout/MainLayout";
 import { useTopic } from "@/hooks/useTopic";
-import { getTopics, createTopic, poolTaskEndpoint as cacheKey } from "@/services/topic.services";
-import { useSession } from "next-auth/react";
+import { getTopics, createTopic, poolTaskEndpoint as cacheKey } from "@/services/topics.services";
+import { getSession, useSession } from "next-auth/react";
+import { GetServerSidePropsContext } from "next";
+import { getServerSession } from "next-auth";
+import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-function Todos() {
+function Todos({ bearerToken }: { bearerToken: any }) {
   const { data: userSession, status } = useSession();
   const { topics, addTopic } = useTopic();
   const { isLoading, error, data, mutate } = useSWR(cacheKey, () =>
-    getTopics({ userId: userSession?.user?.email ?? "" })
+    getTopics({ userId: userSession?.user?.email ?? "", token: bearerToken })
   );
 
   return (
@@ -25,7 +28,13 @@ function Todos() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainLayout
-        handleAdd={(title: string) => addTopic({ id: window.crypto.randomUUID(), title: title, done: false })}
+        handleAdd={(title: string) => {
+          createTopic({
+            name: title,
+            user_id: userSession?.user?.email ?? "",
+          });
+          mutate();
+        }}
       >
         <div className={"grid w-full grid-cols-2 gap-4"}>
           {data
@@ -47,7 +56,19 @@ function Todos() {
     </>
   );
 }
-
 Todos.requireAuth = true;
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getSession(ctx);
+
+  console.log("SERVER");
+  console.log(session);
+
+  return {
+    props: {
+      bearerToken: session?.bearerToken ?? "NO_TOKEN",
+    },
+  };
+}
 
 export default Todos;

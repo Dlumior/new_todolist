@@ -12,6 +12,7 @@
     "@radix-ui/react-checkbox": "^1.0.3",
     "@radix-ui/react-label": "^2.0.1",
     "@radix-ui/react-toast": "^1.1.4",
+    "axios": "^1.4.0",
     "class-variance-authority": "^0.5.1",
     "clsx": "^1.2.1",
     "lucide-react": "^0.130.0",
