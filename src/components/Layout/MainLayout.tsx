@@ -2,7 +2,6 @@ import { FC, ReactNode, useEffect } from "react";
 import { Input } from "@/components/Elements/ui/Input";
 import { Button } from "@/components/Elements/ui/Button";
 import { useForm } from "react-hook-form";
-import { signOut } from "next-auth/react";
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -44,7 +43,7 @@ export const MainLayout: FC<MainLayoutProps> = (props) => {
           <p className={"font-bold text-slate-950"}>Bezzy</p>
         </div>
         <div>
-          <Button size={"sm"} round={"full"} variant={"dark"} type="button" onClick={() => signOut()}>
+          <Button size={"sm"} round={"full"} variant={"dark"} type="button" onClick={() => {}}>
             Sign out
           </Button>
         </div>

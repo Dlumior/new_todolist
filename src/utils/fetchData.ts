@@ -1,5 +1,3 @@
-import { fetchData } from "next-auth/client/_utils";
-
 export type FetchOptions = {
   method: string;
   headers?: { [key: string]: string };
